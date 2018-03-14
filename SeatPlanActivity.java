@@ -139,16 +139,13 @@ public class SeatPlanActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seat_plan);
 
-
         myWebView = (WebView) findViewById(R.id.webView);
         myWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         myWebView.getSettings().setUseWideViewPort(true);
         myWebView.getSettings().setSupportZoom(true);
         myWebView.getSettings().setBuiltInZoomControls(true);
         myWebView.getSettings().setDisplayZoomControls(false);
-        myWebView.getSettings().setBuiltInZoomControls(true);
         myWebView.setBackgroundColor(0);
-        myWebView.setScrollbarFadingEnabled(false);
         myWebView.getSettings().setUseWideViewPort(true);
         myWebView.getSettings().setJavaScriptEnabled(true);
         myWebView.getSettings().setDomStorageEnabled(true);
@@ -161,7 +158,11 @@ public class SeatPlanActivity extends Activity {
       int i,j=0;
       for(i=1;i<=10;i++){
           for(j=1;j<=10;j++){
-              seat_plan = "<button id='"+j+"'  data-seatid='"+j+"' class='btn' style='height:25px;width:25px; padding:5px;margin:5px;" +
+              seat_plan = "<button id='"+j+"' " +
+                      " data-seatid='"+j+"' " +
+                      "class='btn'" +
+                      " style='height:50px;width:50px;" +
+                      " padding:5px;margin:5px;" +
                       "font-size: 5px;border:none;" +
                       " border-radius: 5px; " +
                       " background-color:#0b98a7;" +

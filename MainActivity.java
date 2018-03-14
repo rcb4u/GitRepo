@@ -54,7 +54,6 @@ import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
 public class MainActivity extends Activity implements ConnectivityReceiver.ConnectivityReceiverListener{
-
     private String test;
     private String jsonResponse;
     private RecyclerView movieList;
@@ -83,10 +82,7 @@ public class MainActivity extends Activity implements ConnectivityReceiver.Conne
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
-
     public void GetAllMovies(){
         class WaitingforResponse extends AsyncTask<Void, Void, String> {
             ProgressDialog progressDialog;
