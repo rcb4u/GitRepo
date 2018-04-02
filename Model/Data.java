@@ -1,5 +1,7 @@
 package com.example.rspl_rahul.gitrepo.Model;
 
+import android.databinding.BaseObservable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by rspl-rahul on 30/11/17.
  */
 
-public class Data {
+public class Data extends BaseObservable {
     @SerializedName("source")
     String source;
     @SerializedName("movieId")
@@ -45,7 +47,7 @@ public class Data {
     }
 
     public String getSource() {
-        return source;
+        return this.source;
     }
 
     public void setSource(String source) {
@@ -53,7 +55,7 @@ public class Data {
     }
 
     public int getMovieId() {
-        return movieId;
+        return this.movieId;
     }
 
     public void setMovieId(int movieId) {
@@ -61,7 +63,7 @@ public class Data {
     }
 
     public String getEventType() {
-        return eventType;
+        return this.eventType;
     }
 
     public void setEventType(String eventType) {
@@ -69,7 +71,7 @@ public class Data {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -77,7 +79,7 @@ public class Data {
     }
 
     public String getGenre() {
-        return genre;
+        return this.genre;
     }
 
     public void setGenre(String genre) {
@@ -85,7 +87,7 @@ public class Data {
     }
 
     public String getSummery() {
-        return summery;
+        return this.summery;
     }
 
     public void setSummery(String summery) {
@@ -93,7 +95,7 @@ public class Data {
     }
 
     public String getBanner() {
-        return banner;
+        return this.banner;
     }
 
     public void setBanner(String banner) {
@@ -101,7 +103,7 @@ public class Data {
     }
 
     public String getThumbnailImagePath() {
-        return thumbnailImagePath;
+        return this.thumbnailImagePath;
     }
 
     public void setThumbnailImagePath(String thumbnailImagePath) {
@@ -109,7 +111,7 @@ public class Data {
     }
 
     public String getOpenBookingsOn() {
-        return openBookingsOn;
+        return this.openBookingsOn;
     }
 
     public void setOpenBookingsOn(String openBookingsOn) {
