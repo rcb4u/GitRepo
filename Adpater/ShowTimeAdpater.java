@@ -2,7 +2,6 @@ package com.example.rspl_rahul.gitrepo.Adpater;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.rspl_rahul.gitrepo.Model.ShowTime;
 import com.example.rspl_rahul.gitrepo.R;
-import com.example.rspl_rahul.gitrepo.SeatPlanActivity;
-
-import org.w3c.dom.Text;
+import com.example.rspl_rahul.gitrepo.View.SeatPlanActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +44,7 @@ public class ShowTimeAdpater extends RecyclerView.Adapter<ShowTimeAdpater.ShowTi
         holder.theaters.setText(showTime.getTheaters());
         holder.movieDate.setText(showTime.getDate());
         holder.linearLayout.removeAllViews();
+
         for(int i=1;i<=showTime.getTimeslots().size();i++) {
             holder.myButton[i] = new Button(mContext);
             holder.myButton[i].setTextColor(0xffffffff);

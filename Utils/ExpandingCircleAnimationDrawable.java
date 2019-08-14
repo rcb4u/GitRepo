@@ -1,4 +1,4 @@
-package com.example.rspl_rahul.gitrepo;
+package com.example.rspl_rahul.gitrepo.Utils;
 
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

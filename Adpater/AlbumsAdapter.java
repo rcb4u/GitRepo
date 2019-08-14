@@ -1,39 +1,35 @@
 package com.example.rspl_rahul.gitrepo.Adpater;
-
-import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.rspl_rahul.gitrepo.Model.Data;
+import com.example.rspl_rahul.gitrepo.Model.Movie_Data;
 import com.example.rspl_rahul.gitrepo.R;
-import com.example.rspl_rahul.gitrepo.ShowTimesActivity;
+import com.example.rspl_rahul.gitrepo.View.GetShowDateActivity;
+import com.example.rspl_rahul.gitrepo.View.MainActivity;
+import com.example.rspl_rahul.gitrepo.View.MovieDetailActivity;
+import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by rspl-rahul on 3/1/18.
  */
-
 public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHolder> {
 
-    private Context mContext;
-    private List<Data> albumList;
+    private MainActivity mContext;
+    private List<Movie_Data> albumList;
     private int mposition;
-
-    public AlbumsAdapter(Context mContext, List<Data> albumList) {
+    public AlbumsAdapter(MainActivity mContext, List<Movie_Data> albumList) {
         this.mContext = mContext;
         this.albumList = albumList;
     }
@@ -47,41 +43,48 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        final Data album = albumList.get(position);
-        holder.title.setText(album.getName());
-        // loading album cover using Glide library
-        Glide.with(mContext).load(album.getThumbnailImagePath()).into(holder.thumbnail);
+        final Movie_Data album = albumList.get(position);
+        holder.title.setText(album.getMovieName());
+        holder.Genre.setText(album.getGenre()+" "+album.getDuration());
+        // loading album cover using Picasso library
+        holder.mratingtv.setText(album.getImdbRate());
+        Picasso.get()
+                .load(album.getThumbnailImagePath())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
+                .into(holder.thumbnail);
 
-        holder.overflow.setOnClickListener(new View.OnClickListener() {
+        holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                mposition = position;
-                Log.e("mposition", "" + mposition);
-                showPopupMenu(holder.overflow);
+            public void onClick(View v) {
+                Intent in = new Intent(mContext, MovieDetailActivity.class);
+                List<Movie_Data.Source> source=album.getSources();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Source_Locations", (Serializable) source);
+                in.putExtra("movieId", album.getMovieId());
+                in.putExtras(bundle);
+                in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(in);
             }
         });
         holder.Book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(mContext, ShowTimesActivity.class);
-                in.putExtra("movieId", album.getMovieId());
+                Intent in = new Intent(mContext, GetShowDateActivity.class);
+                Bundle bundle = new Bundle();
+                Log.e("Movie_ID",album.getMovieId());
+                in.putExtra("movieId",album.getMovieId());
+                bundle.putSerializable("Movie_data", album);
+                in.putExtras(bundle);
                 in.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(in);
+
             }
         });
+
     }
 
-    /**
-     * Showing popup menu when tapping on 3 dots
-     */
-    private void showPopupMenu(View view) {
-        // inflate menu
-        PopupMenu popup = new PopupMenu(mContext, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.menu_album, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
-        popup.show();
-    }
+
 
     @Override
     public int getItemCount() {
@@ -91,46 +94,20 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, summery;
-        public ImageView thumbnail, overflow;
-        public CardView card_view;
+        public TextView title, Genre,mratingtv;
+        public RoundedImageView thumbnail;
+        public LinearLayout card_view;
         public Button Book;
 
         public MyViewHolder(View view) {
             super(view);
-            card_view = (CardView) view.findViewById(R.id.card_view);
+            card_view = (LinearLayout) view.findViewById(R.id.Album_card_view);
             title = (TextView) view.findViewById(R.id.title);
-            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
-            overflow = (ImageView) view.findViewById(R.id.overflow);
+            thumbnail = (RoundedImageView) view.findViewById(R.id.thumbnail);
             Book = (Button) view.findViewById(R.id.book);
-            //  summery = (TextView) view.findViewById(R.id.summery);
+            Genre = (TextView) view.findViewById(R.id.genre);
+            mratingtv=(TextView)view.findViewById(R.id.IMDB);
         }
 
-    }
-
-    /**
-     * Click listener for popup menu items
-     */
-    class MyMenuItemClickListener implements PopupMenu.OnMenuItemClickListener {
-
-        public MyMenuItemClickListener() {
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem menuItem) {
-            switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Log.e("mbuttonclick", "" + mposition);
-                    Data album = albumList.get(mposition);
-                    Toast.makeText(mContext, album.getSummery(), Toast.LENGTH_SHORT).show();
-
-                    return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-            }
-            return false;
-        }
     }
 }
